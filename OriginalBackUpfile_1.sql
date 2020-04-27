@@ -60,7 +60,17 @@ SELECT
 	c.dateopened,
 	c.wipstartdate,
 	c.wiplastpunchdate,
+	c.totalWorkOrderAmount,
 	b.brandName,
 	b.daysTofileClaim
 FROM claim c
 INNER JOIN brand b on c.brand_ID = b.brand_ID
+
+select
+	c.claimNumber,
+	c.serialNumber,
+	c.totalWorkOrderAmount,
+	now() :: date - c.wiplastpunchdate :: date as date_diff,
+	b.brandName
+from claim c 
+inner join brand b on c.brand_id = b.brand_id
