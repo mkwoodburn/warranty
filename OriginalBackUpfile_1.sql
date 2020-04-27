@@ -39,3 +39,14 @@ CREATE TABLE claim_Segment (
 INSERT INTO claim_Segment (claim_id, segment_id, description)
 VALUES
 	(2, 1, 'Test description # 1');	
+	
+create table brand (
+	brand_ID serial Primary KEY,
+	brandName varchar(255),
+	daysTofileClaim int,
+	daysToFileAppeal int);
+	
+insert into brand (brandName, daysToFileClaim, daysToFileAppeal)
+	values
+	('CNH', 30, 45),
+	('Hyundai', 30, 15);
