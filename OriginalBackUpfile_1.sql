@@ -4,10 +4,29 @@ create table brand (
 	daysTofileClaim int,
 	daysToFileAppeal int);
 	
-insert into brand (brandName, daysToFileClaim, daysToFileAppeal)
-	values
-	('CNH', 30, 45),
-	('Hyundai', 30, 15);
+CREATE TABLE status (
+	status_id serial Primary Key,
+	statusName VARCHAR (255) NOT NULL,
+	statusDescription VARCHAR (255));
+	
+ CREATE TABLE segment (
+ 	segment_id serial Primary KEY,
+ 	segment SMALLINT NOT NULL);	
+	
+CREATE TABLE claim_Segment (
+	claimSegment_ID serial Primary KEY,
+	description TEXT,
+	claim_id integer REFERENCES claim,
+	segment_id integer REFERENCES segment);	
+	
+CREATE TABLE part (
+	part_id serial Primary KEY,
+	partSerialNumber VARCHAR(255),
+	partDescription VARCHAR(255));
+	
+CREATE TABLE labor (
+	labor_id serial Primary KEY,
+	techNumber VARCHAR(255));
 
 CREATE TABLE claim (
  	CLAIM_ID serial Primary KEY,
@@ -18,41 +37,49 @@ CREATE TABLE claim (
  	WIPStartDate DATE NOT NULL,
  	WIPLastPunchDate DATE NOT NULL,
 	totalWorkOrderAmount MONEY, 
-	brand_ID integer REFERENCES brand NOT NULL 
- );
+	brand_ID integer REFERENCES brand NOT NULL, 
+	status_id integer REFERENCES status);
 
-INSERT INTO claim (claimNumber, serialNumber, WorkOrderHourMeter, dateOpened, WIPStartDate, WIPLastPunchDate, totalWorkOrderAmount, brand_ID)
-VALUES 
- 	('FC02861', 'NKM474589', 7.3, '03/02/2020', '03/02/2020', '03/11/2020', 1451.25,1),
- 	('FC02883', 'NHM439420', 708, '03/16/2020', '04/16/2020', '04/21/2020', 506.25,1),
- 	('FC02901', 'NJM449454', 280.5, '04/17/2020', '04/17/2020', '04/21/2020', 1121.72,1),
- 	('WA07811', 'NHM439916', 976, '03/27/2020', '03/27/2020', '04/16/2020', 1356.75,1);
-
- CREATE TABLE segment (
- 	SEGMENT_ID serial Primary KEY,
- 	segment SMALLINT NOT NULL
- 	);
+insert into brand (brandName, daysToFileClaim, daysToFileAppeal)
+	values
+	('CNH', 30, 45),
+	('Hyundai', 30, 15);	
+	
+insert into status (statusName, statusDescription)
+values
+	('untouched', 'This is a brand new claim that has not been touched'),
+	('Draft - No SRT', 'Claim is in draft but the SRTs need to be added'),
+	('Pending Dealer Response', 'Sent question to the dealer waiting for the response.');
 
 INSERT INTO segment (segment)
- VALUES
+VALUES
  	(1),
  	(2),
  	(3),
  	(4),
  	(5);
+	
+INSERT INTO part (partSerialNumber, partDescription)
+VALUES 
+	('47778097', 'JOYSTICK'),
+	('81865209', 'SCREW'),
+	('378884A2','STRAP');
+	
+INSERT INTO labor (techNumber)
+VALUES
+	(2996);
 
-CREATE TABLE claim_Segment (
-	claimSegment_ID serial Primary KEY,
-	description TEXT,
-	claim_id integer REFERENCES claim,
-	segment_id integer REFERENCES segment
-	);	
-	
-	
+INSERT INTO claim (claimNumber, serialNumber, WorkOrderHourMeter, dateOpened, WIPStartDate, WIPLastPunchDate, totalWorkOrderAmount, brand_ID, status_id)
+VALUES 
+ 	('FC02861', 'NKM474589', 7.3, '03/02/2020', '03/02/2020', '03/11/2020', 1451.25,1, 1),
+ 	('FC02883', 'NHM439420', 708, '03/16/2020', '04/16/2020', '04/21/2020', 506.25,1, 1),
+ 	('FC02901', 'NJM449454', 280.5, '04/17/2020', '04/17/2020', '04/21/2020', 1121.72,1, 3),
+ 	('WA07811', 'NHM439916', 976, '03/27/2020', '03/27/2020', '04/16/2020', 1356.75,1, 2);
+
 INSERT INTO claim_Segment (claim_id, segment_id, description)
 VALUES
 	(2, 1, 'Test description # 1');	
-	
+
 	
 SELECT 
 	c.claimnumber, 
