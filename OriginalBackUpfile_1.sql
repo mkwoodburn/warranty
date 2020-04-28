@@ -39,6 +39,15 @@ CREATE TABLE claim (
 	totalWorkOrderAmount MONEY, 
 	brand_ID integer REFERENCES brand NOT NULL, 
 	status_id integer REFERENCES status);
+	
+CREATE TABLE claimsegment_labor_part (
+	claimsegmentlaborpart_id serial Primary KEY,
+	partCost Money,
+	partQuanity int,
+	laborHours int,
+	part_id integer REFERENCES part,
+	labor_id integer REFERENCES labor,
+	claimsegment_id integer REFERENCES claim_Segment);
 
 insert into brand (brandName, daysToFileClaim, daysToFileAppeal)
 	values
@@ -79,6 +88,13 @@ VALUES
 INSERT INTO claim_Segment (claim_id, segment_id, description)
 VALUES
 	(2, 1, 'Test description # 1');	
+	
+INSERT INTO claimsegment_labor_part (partCost, partQuanity, laborHours, part_id, labor_id, claimsegment_id)
+VALUES
+	(495.88, 1, 0, 1, 1, 1),
+	(495.88, 1, 0, 1, 1, 1),
+	(495.88, 1, 0, 1, 1, 1),
+	(0, 0, 1.74, 1, 1, 1);
 
 	
 SELECT 
