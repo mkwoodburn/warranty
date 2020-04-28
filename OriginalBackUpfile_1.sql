@@ -9,7 +9,7 @@ CREATE TABLE status (
 	statusName VARCHAR (255) NOT NULL,
 	statusDescription VARCHAR (255));
 	
- CREATE TABLE segment (
+CREATE TABLE segment (
  	segment_id serial Primary KEY,
  	segment SMALLINT NOT NULL);	
 	
@@ -44,18 +44,18 @@ CREATE TABLE claimsegment_labor_part (
 	claimsegmentlaborpart_id serial Primary KEY,
 	partCost Money,
 	partQuanity int,
-	laborHours int,
+	laborHours decimal(10,2),
 	part_id integer REFERENCES part,
 	labor_id integer REFERENCES labor,
 	claimsegment_id integer REFERENCES claim_Segment);
 
-insert into brand (brandName, daysToFileClaim, daysToFileAppeal)
-	values
+INSERT INTO brand (brandName, daysToFileClaim, daysToFileAppeal)
+VALUES
 	('CNH', 30, 45),
 	('Hyundai', 30, 15);	
 	
-insert into status (statusName, statusDescription)
-values
+INSERT INTO status (statusName, statusDescription)
+VALUES
 	('untouched', 'This is a brand new claim that has not been touched'),
 	('Draft - No SRT', 'Claim is in draft but the SRTs need to be added'),
 	('Pending Dealer Response', 'Sent question to the dealer waiting for the response.');
@@ -92,9 +92,10 @@ VALUES
 INSERT INTO claimsegment_labor_part (partCost, partQuanity, laborHours, part_id, labor_id, claimsegment_id)
 VALUES
 	(495.88, 1, 0, 1, 1, 1),
-	(495.88, 1, 0, 1, 1, 1),
-	(495.88, 1, 0, 1, 1, 1),
-	(0, 0, 1.74, 1, 1, 1);
+	(1.21, 1, 0, 1, 1, 1),
+	(4.24, 1, 0, 1, 1, 1),
+	(0, 0, 1.74, 1, 1, 1),
+	(0, 0, 2.49, 1, 1, 1);
 
 	
 SELECT 
